@@ -1,3 +1,5 @@
+import sys
+
 import numpy as np
 import pytest
 import torch
@@ -87,3 +89,56 @@ def test_render_meshes_are_closed_and_outward(hand):
         n = np.cross(V[F[:, 1]] - V[F[:, 0]], V[F[:, 2]] - V[F[:, 0]])
         vol = np.einsum("ij,ij->i", n, V[F[:, 0]]).sum() / 6.0  # divergence theorem
         assert vol > 0
+
+
+def test_signed_distance_is_exact_inside_the_hand(hand):
+    fk = hand.forward(hand.rest_pose(1))
+    # the axis midpoint of every distal phalanx lies exactly one radius deep
+    for f in range(5):
+        s = 3 * f + 2
+        mid = fk["p"][0, s] + 0.5 * hand.lengths[f, 2] * fk["R"][0, s, :, 1]
+        assert float(hand.signed_distance(fk, mid[None, None])) == pytest.approx(-float(hand.radii[f, 2]), abs=1e-9)
+    # dense surface samples are on the surface of one part, possibly inside another, never outside
+    assert float(hand.signed_distance(fk, hand.dense_surface_points(fk)).max()) < 1e-9
+
+
+def test_core_model_works_without_scikit_image(monkeypatch):
+    # scikit-image is an optional (viz) dependency; only the palm render mesh needs it
+    monkeypatch.setitem(sys.modules, "skimage", None)
+    monkeypatch.setitem(sys.modules, "skimage.measure", None)
+    hand, ball = dg.HandModel(), dg.make_object("ball")
+    pose = hand.rest_pose(2)
+    dg.grasp_energy(hand, ball, pose, dg.GRASP_TYPES["precision"])
+    dg.evaluate(hand, ball, pose, dg.GRASP_TYPES["precision"])
+    with pytest.raises(ImportError):
+        hand.mesh(hand.forward(pose))
+
+
+def test_penetration_samples_cover_the_hand(hand):
+    # hull vertices alone sit on the rounded rim: every point of the palm must be near a sample
+    gap = torch.cdist(hand.palm_dense, hand.palm_samples).min(-1).values
+    assert float(gap.max()) < 0.004
+    # and so must every point of each capsule (the proximal cap is hidden inside the knuckle)
+    for dense, samples in zip(hand.seg_dense, hand.seg_samples):
+        dense = dense[dense[:, 1] >= 0]
+        assert float(torch.cdist(dense, samples).min(-1).values.max()) < 0.003
+
+
+def test_penetration_weights_measure_the_skin_each_sample_stands_for(hand):
+    from diffgrasp.hand import _voronoi_areas
+
+    # a unit square sampled every 0.1 on the left and every 0.2 on the right: each sample weighs
+    # the area of its own cell, so the sparse ones weigh about 4.5 times as much
+    rng = np.random.default_rng(0)
+    left = np.stack(np.meshgrid(np.arange(0.05, 0.5, 0.1), np.arange(0.05, 1.0, 0.1)), -1).reshape(-1, 2)
+    right = np.stack(np.meshgrid(np.arange(0.6, 1.0, 0.2), np.arange(0.1, 1.0, 0.2)), -1).reshape(-1, 2)
+    w = _voronoi_areas(np.concatenate([left, right]), rng.random((200000, 2)), 1.0)
+    assert w.sum() == pytest.approx(1.0)
+    assert 3.5 < w[len(left):].mean() / w[: len(left)].mean() < 5.5
+    # on the hand, the weights add up to the sampled skin: capsule sides and tips, and the palm
+    L, r = hand.lengths.numpy().ravel(), hand.radii.numpy().ravel()
+    V, F = hand.palm_vertices.numpy(), hand.palm_faces
+    palm = 0.5 * np.linalg.norm(np.cross(V[F[:, 1]] - V[F[:, 0]], V[F[:, 2]] - V[F[:, 0]]), axis=1).sum()
+    skin = (2 * np.pi * r * (L + r)).sum() + palm
+    assert float(hand.sample_weights.sum()) * 3e-5 == pytest.approx(skin, rel=1e-9)
+    assert float(hand.sample_weights.min()) > 0

@@ -49,3 +49,11 @@ def test_interior_samples_and_surface_rays():
     ball = dg.make_object("ball")
     d = torch.nn.functional.normalize(torch.randn(20, 3, dtype=torch.float64), dim=-1)
     np.testing.assert_allclose(ball.surface_distance_along(d).numpy(), 0.036, atol=1e-6)
+
+
+@pytest.mark.parametrize("name", list(dg.OBJECTS))
+def test_surface_samples_lie_on_the_surface(name):
+    obj = dg.make_object(name)
+    q = obj.surface_points(5000)
+    assert q.shape == (5000, 3)
+    assert float(obj(q).abs().max()) < 1e-6

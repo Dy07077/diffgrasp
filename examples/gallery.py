@@ -9,7 +9,7 @@ import json
 import numpy as np
 from PIL import Image
 
-from common import ASSETS, framing, sdf_numpy, synthesize
+from common import ASSETS, framing, run_info, sdf_numpy, synthesize
 from diffgrasp.render import INK, MUTED, OBJECT, Renderer, contact_colors
 
 CASES = [
@@ -41,11 +41,11 @@ def main():
         tiles.append(r.render([{"V": OV, "F": OF, "color": OBJECT}, {"V": V, "F": F, "color": contact_colors(V, F, sdf_numpy(obj))}]))
         table.append(stats)
         print(f"{name:7s} {grasp:9s} valid {stats['valid_fraction']:.0%}  eps {e['epsilon']:.3f}  "
-              f"contacts {e['n_contacts']}  pen {e['penetration_mm']:.2f} mm  ({stats['seconds']:.0f} s)", flush=True)
+              f"contacts {e['n_contacts']}  pen {e['penetration_mm']:.2f} mm  ({stats['seconds']:.0f} s)  failed checks {stats['failed_checks']}", flush=True)
     grid = np.concatenate([np.concatenate(tiles[i : i + 3], 1) for i in (0, 3)], 0)
     ASSETS.mkdir(exist_ok=True)
     Image.fromarray(grid).save(ASSETS / "gallery.png", optimize=True)
-    (ASSETS / "results.json").write_text(json.dumps(table, indent=2))
+    (ASSETS / "results.json").write_text(json.dumps({**run_info(), "cases": table}, indent=2))
     print("wrote", ASSETS / "gallery.png")
 
 

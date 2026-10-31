@@ -50,6 +50,9 @@ class EnergyWeights:
     contact_softness: float = 0.05  # smooth-L1 corner, in units of ``scale`` (0.5 mm)
     delta: float = 0.05  # radius of the disturbance-wrench set that must be resisted
     touch_radius: float = 0.003  # metres; friction cones fade out beyond this distance
+    # "hull": friction-cone wrench hull (default). "normals": |G c|, the net wrench of equal
+    # normal forces from Liu et al. (2021), kept as a baseline for ablations.
+    closure_model: str = "hull"
 
 
 def _self_collision_mask(hand: HandModel):
@@ -70,17 +73,24 @@ def grasp_energy(hand: HandModel, obj: SDF, pose: HandPose, contacts, w: EnergyW
     d_c = obj(c)
     n_obj = obj.normal(c)
     terms = {}
-    # smooth L1 ("exact penalty"): a constant pull right up to the surface
+    # smooth L1: an almost constant pull until the last millimetre or so, rounding off to zero within
+    # about contact_softness * scale (0.5 mm) so that the gradient stays smooth
     eta = w.contact_softness
     terms["contact"] = (torch.sqrt((d_c / s) ** 2 + eta**2) - eta).sum(-1)
     terms["align"] = (1.0 + (n_hand * n_obj).sum(-1)).sum(-1)
     d_p = obj(hand.surface_points(fk))
     depth = torch.relu(-d_p) / s
-    terms["penetration"] = (depth + depth**2).sum(-1)
+    terms["penetration"] = (hand.sample_weights * (depth + depth**2)).sum(-1)  # area-weighted samples
     centre = torch.as_tensor(obj.center, dtype=c.dtype)
-    # only contacts that actually touch may resist wrenches: cones fade with distance
-    touching = torch.exp(-((d_c / w.touch_radius) ** 2))
-    terms["closure"] = closure_energy(c, n_obj, centre, obj.radius, mu=w.mu, delta=w.delta, strength=touching) / w.delta**2
+    if w.closure_model == "normals":
+        # |G c| (Liu et al. 2021, Eq. 6): net wrench of equal normal forces, friction left out
+        f = -n_obj
+        net = torch.cat([f, torch.cross(c - centre, f, dim=-1) / obj.radius], -1).sum(-2)
+        terms["closure"] = torch.sqrt((net**2).sum(-1) + 1e-12)
+    else:
+        # only contacts that actually touch may resist wrenches: cones fade with distance
+        touching = torch.exp(-((d_c / w.touch_radius) ** 2))
+        terms["closure"] = closure_energy(c, n_obj, centre, obj.radius, mu=w.mu, delta=w.delta, strength=touching) / w.delta**2
     if not hasattr(hand, "_collision_masks"):
         hand._collision_masks = _self_collision_mask(hand)
     keep, palm = hand._collision_masks

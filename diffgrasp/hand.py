@@ -70,11 +70,16 @@ class HandPose:
         return HandPose(self.rot6d[idx], self.trans[idx], self.logits[idx])
 
 
-def _capsule_points(length, radius, n_rings=6, n_around=12, n_cap=2):
-    """Points on a capsule along +y from 0 to ``length`` (local frame)."""
+def _capsule_points(length, radius, spacing=0.003, n_around=16, n_cap=3):
+    """Points on a capsule along +y from 0 to ``length`` (local frame), in rings ``spacing`` apart.
+
+    Sparser rings let a convex object overlap the capsule between samples unseen: an overlap of
+    half-width ``a`` is about ``a^2 / 2 (1/R_object + 1/radius)`` deep, and it goes unnoticed
+    while ``a`` is smaller than the distance to the nearest sample.
+    """
     phi = np.linspace(0, 2 * np.pi, n_around, endpoint=False)
     pts = []
-    for y in np.linspace(0.0, length, n_rings):
+    for y in np.linspace(0.0, length, int(np.ceil(length / spacing)) + 1):
         pts.append(np.stack([radius * np.cos(phi), np.full_like(phi, y), radius * np.sin(phi)], 1))
     for k in range(1, n_cap + 1):  # distal cap
         a = 0.5 * np.pi * k / (n_cap + 1)
@@ -151,6 +156,52 @@ def _smooth_hull_mesh(equations, lo, hi, sharpness=1500.0, res=40):
     return V + np.array([a[0] for a in axes]), F
 
 
+def _area_samples(V, F, n, seed=0):
+    """``n`` points spread over a triangle mesh in proportion to area (deterministic)."""
+    rng = np.random.default_rng(seed)
+    a, b, c = V[F[:, 0]], V[F[:, 1]], V[F[:, 2]]
+    area = 0.5 * np.linalg.norm(np.cross(b - a, c - a), axis=1)
+    tri = rng.choice(len(F), n, p=area / area.sum())
+    s, r = np.sqrt(rng.random(n)), rng.random(n)
+    return (1 - s)[:, None] * a[tri] + (s * (1 - r))[:, None] * b[tri] + (s * r)[:, None] * c[tri]
+
+
+def _capsule_skin(length, radius, n, seed=0):
+    """``n`` area-uniform random points on the sampled part of a capsule (side and distal cap)
+    and that part's area."""
+    rng = np.random.default_rng(seed)
+    side, cap = 2 * np.pi * radius * length, 2 * np.pi * radius**2
+    on_side = rng.random(n) < side / (side + cap)
+    phi, h = 2 * np.pi * rng.random(n), rng.random(n)  # uniform height is area-uniform on a sphere (Archimedes)
+    y = np.where(on_side, length * h, length + radius * h)
+    rho = np.where(on_side, radius, radius * np.sqrt(1 - h**2))
+    return np.stack([rho * np.cos(phi), y, rho * np.sin(phi)], 1), side + cap
+
+
+def _voronoi_areas(samples, skin, area):
+    """Area of the surface closest to each sample (its Voronoi cell), counted with dense
+    area-uniform points ``skin`` that cover a surface of total ``area``."""
+    from scipy.spatial import cKDTree
+
+    owner = cKDTree(samples).query(skin)[1]
+    return np.bincount(owner, minlength=len(samples)) * (area / len(skin))
+
+
+def _covering_samples(V, F, radius, seed=0):
+    """The mesh vertices plus enough surface points that every point of the surface lies within
+    ``radius`` of a sample (farthest-point sampling over dense area-weighted candidates)."""
+    cand = _area_samples(V, F, 20000, seed)
+    d = np.full(len(cand), np.inf)
+    for v in V:
+        d = np.minimum(d, np.linalg.norm(cand - v, axis=1))
+    extra = []
+    while d.max() > radius:
+        i = int(d.argmax())
+        extra.append(cand[i])
+        d = np.minimum(d, np.linalg.norm(cand - cand[i], axis=1))
+    return np.concatenate([V, np.reshape(extra, (-1, 3))])
+
+
 def _sphere_points(center, radius, n=60):
     i = np.arange(n) + 0.5
     phi = np.arccos(1 - 2 * i / n)
@@ -217,18 +268,33 @@ class HandModel:
         F[flip] = F[flip][:, [0, 2, 1]]
         self.palm_vertices, self.palm_faces = t(verts), F
         self.palm_planes = t(hull.equations)  # rows (n, b): n . x + b <= 0 inside
-        self.palm_render = _smooth_hull_mesh(hull.equations, cloud.min(0), cloud.max(0))
-        palm_samples = verts[np.linspace(0, len(verts) - 1, min(len(verts), 160)).astype(int)]
-        self.palm_samples = t(palm_samples)
+        self._palm_hull, self._palm_render = (hull.equations, cloud.min(0), cloud.max(0)), None
+        # the hull's vertices only cover its rounded rim; the broad palmar face needs samples of its own
+        palm_pts = _covering_samples(verts, F, radius=0.003)
+        self.palm_samples = t(palm_pts)
         self.palm_front = float(verts[:, 2].max())
 
-        # per-segment surface samples and render meshes (segment-local frames)
-        self.seg_samples, self.seg_meshes = [], []
+        # Per-segment penetration samples and render meshes, in segment-local frames. Each sample
+        # stands for the skin closest to it (its Voronoi cell, counted with dense random points).
+        # Weighting by that area makes the penetration energy approximate a surface integral, so its
+        # strength hardly depends on how densely, or how evenly, the skin is sampled. Unit weight is
+        # 30 mm^2, about one sample per patch with the original sampling.
+        self.seg_samples, self.seg_meshes, areas = [], [], []
         for f in range(5):
             for k in range(3):
                 L, r = lengths[f][k], radii[f][k]
-                self.seg_samples.append(t(_capsule_points(L, r)))
+                pts = _capsule_points(L, r)
+                areas.append(_voronoi_areas(pts, *_capsule_skin(L, r, 20000, seed=3 * f + k)))
+                self.seg_samples.append(t(pts))
                 self.seg_meshes.append(_capsule_mesh(L, r))
+        a, b, c = verts[F[:, 0]], verts[F[:, 1]], verts[F[:, 2]]
+        palm_area = 0.5 * np.linalg.norm(np.cross(b - a, c - a), axis=1).sum()
+        areas.append(_voronoi_areas(palm_pts, _area_samples(verts, F, 60000, seed=1), palm_area))
+        self.sample_weights = t(np.concatenate(areas) / 3e-5)
+        # dense samples for the final penetration check, independent of the optimiser's samples:
+        # capsule mesh vertices (~3 mm apart) and 12k points over the palm hull, faces included
+        self.seg_dense = [t(V) for V, _ in self.seg_meshes]
+        self.palm_dense = t(_area_samples(verts, F, 12000))
 
         # contact candidates: (segment index or -1 for palm, local point, local normal)
         cand = {}
@@ -309,10 +375,29 @@ class HandModel:
         return local @ fk["R"][:, segment].transpose(1, 2) + fk["p"][:, segment, None]
 
     def surface_points(self, fk: dict) -> torch.Tensor:
-        """``(B, P, 3)`` samples on all capsules and the palm, for penetration tests."""
+        """``(B, P, 3)`` samples on all capsules and the palm, for the penetration energy."""
         pts = [self.to_world(fk, s, loc) for s, loc in enumerate(self.seg_samples)]
         pts.append(self.to_world(fk, -1, self.palm_samples))
         return torch.cat(pts, dim=1)
+
+    def dense_surface_points(self, fk: dict) -> torch.Tensor:
+        """``(B, P, 3)`` dense samples on all capsules and the palm, for final penetration checks."""
+        pts = [self.to_world(fk, s, loc) for s, loc in enumerate(self.seg_dense)]
+        pts.append(self.to_world(fk, -1, self.palm_dense))
+        return torch.cat(pts, dim=1)
+
+    def signed_distance(self, fk: dict, x: torch.Tensor) -> torch.Tensor:
+        """Signed distance ``(B, n)`` from world points ``(B, n, 3)`` to the hand.
+
+        Exact inside the hand (the capsules are analytic and the palm hull's planes give the exact
+        depth inside a convex polytope), which is all a penetration depth needs; outside the palm
+        it is a lower bound.
+        """
+        axis = fk["R"][..., :, 1]  # (B, 15, 3): each capsule runs along its segment's local +y
+        rel = x[:, :, None, :] - fk["p"][:, None]  # (B, n, 15, 3)
+        s = torch.minimum(torch.relu((rel * axis[:, None]).sum(-1)), self.lengths.reshape(-1))
+        caps = (rel - s[..., None] * axis[:, None]).norm(dim=-1) - self.radii.reshape(-1)
+        return torch.minimum(caps.min(-1).values, self.palm_signed_distance(fk, x))
 
     def contacts(self, fk: dict, names) -> tuple[torch.Tensor, torch.Tensor]:
         """World positions and outward normals ``(B, K, 3)`` of named contact candidates."""
@@ -344,6 +429,13 @@ class HandModel:
         return d.max(dim=-1).values
 
     # --------------------------------------------------------------- meshes
+    @property
+    def palm_render(self):
+        """Smoothed palm mesh for rendering, built on first use (needs scikit-image)."""
+        if self._palm_render is None:
+            self._palm_render = _smooth_hull_mesh(*self._palm_hull)
+        return self._palm_render
+
     def mesh(self, fk: dict, b: int = 0):
         """Triangle mesh of hand ``b`` as numpy arrays ``(V, F, part)``."""
         Vs, Fs, parts, off = [], [], [], 0

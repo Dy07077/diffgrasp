@@ -1,86 +1,2491 @@
-[
-  {
-    "object": "ball",
-    "grasp": "precision",
-    "seeds": 48,
-    "valid_fraction": 0.9791666666666666,
-    "best": {
-      "epsilon": 0.07879791899614692,
-      "n_contacts": 3,
-      "penetration_mm": 0.0,
-      "contact_distance_mm": 0.16293178487103432,
-      "valid": true
-    },
-    "seconds": 19.92693612500443
+{
+  "environment": {
+    "python": "3.12.7",
+    "torch": "2.15.0",
+    "numpy": "2.5.4",
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "threads": 8
   },
-  {
-    "object": "cube",
-    "grasp": "precision",
-    "seeds": 48,
-    "valid_fraction": 0.3333333333333333,
-    "best": {
-      "epsilon": 0.08882729030223996,
-      "n_contacts": 3,
-      "penetration_mm": 0.0,
-      "contact_distance_mm": 0.27672015130519867,
-      "valid": true
+  "settings": {
+    "seeds_per_object": 48,
+    "iterations": 800,
+    "rng_seed": 0,
+    "weights": {
+      "contact": 3.0,
+      "align": 0.5,
+      "penetration": 20.0,
+      "closure": 1.0,
+      "self_collision": 20.0,
+      "prior": 0.01,
+      "scale": 0.01,
+      "mu": 0.5,
+      "contact_softness": 0.05,
+      "delta": 0.05,
+      "touch_radius": 0.003,
+      "closure_model": "hull"
     },
-    "seconds": 22.12546208401909
+    "valid_if": "force closure at mu = 0.5 (Ferrari-Canny eps > 0), >= 3 contacts within 2 mm, penetration < 1 mm by diffgrasp.penetration_depth"
   },
-  {
-    "object": "donut",
-    "grasp": "power",
-    "seeds": 48,
-    "valid_fraction": 0.7083333333333334,
-    "best": {
-      "epsilon": 0.09851117075374129,
-      "n_contacts": 10,
-      "penetration_mm": 0.0,
-      "contact_distance_mm": 0.9577290038578212,
-      "valid": true
+  "cases": [
+    {
+      "object": "ball",
+      "grasp": "precision",
+      "seeds": 48,
+      "valid_fraction": 0.9791666666666666,
+      "valid_fraction_95ci": [
+        0.8910053086246883,
+        0.9963129840206002
+      ],
+      "failed_checks": {
+        "fewer_than_3_contacts": 1,
+        "not_force_closure": 1,
+        "penetration_over_1mm": 0
+      },
+      "median_valid_epsilon": 0.08723966741662688,
+      "best": {
+        "epsilon": 0.08125688196158459,
+        "n_contacts": 3,
+        "penetration_mm": 0.05623139441013336,
+        "contact_distance_mm": 0.2120397984981537,
+        "valid": true
+      },
+      "seconds": 24.163654916977976,
+      "per_seed": [
+        {
+          "epsilon": 0.10006631595600607,
+          "n_contacts": 3,
+          "penetration_mm": 0.17903652042150497,
+          "contact_distance_mm": 0.3366805613040924,
+          "valid": true,
+          "energy": 0.3080013394355774
+        },
+        {
+          "epsilon": 0.11347383770116136,
+          "n_contacts": 3,
+          "penetration_mm": 0.18040183931589127,
+          "contact_distance_mm": 0.2728042600210756,
+          "valid": true,
+          "energy": 0.20976874232292175
+        },
+        {
+          "epsilon": 0.12319816786332037,
+          "n_contacts": 3,
+          "penetration_mm": 0.2052783966064453,
+          "contact_distance_mm": 0.39028748869895935,
+          "valid": true,
+          "energy": 0.3743244409561157
+        },
+        {
+          "epsilon": 0.10084304370195171,
+          "n_contacts": 3,
+          "penetration_mm": 0.1628343015909195,
+          "contact_distance_mm": 0.39542591548524797,
+          "valid": true,
+          "energy": 0.3441388010978699
+        },
+        {
+          "epsilon": 0.07239520619234284,
+          "n_contacts": 3,
+          "penetration_mm": 0.13613607734441757,
+          "contact_distance_mm": 0.3921178577002138,
+          "valid": true,
+          "energy": 0.397819846868515
+        },
+        {
+          "epsilon": 0.07963444426873062,
+          "n_contacts": 3,
+          "penetration_mm": 0.20712148398160934,
+          "contact_distance_mm": 0.21820019173901528,
+          "valid": true,
+          "energy": 0.23029720783233643
+        },
+        {
+          "epsilon": 0.07982686224539272,
+          "n_contacts": 3,
+          "penetration_mm": 0.23795198649168015,
+          "contact_distance_mm": 0.3091196122113615,
+          "valid": true,
+          "energy": 0.2803480625152588
+        },
+        {
+          "epsilon": 0.08721822812710157,
+          "n_contacts": 3,
+          "penetration_mm": 0.18561724573373795,
+          "contact_distance_mm": 0.3498246369417757,
+          "valid": true,
+          "energy": 0.3035113215446472
+        },
+        {
+          "epsilon": 0.10736228810558761,
+          "n_contacts": 3,
+          "penetration_mm": 0.07301010191440582,
+          "contact_distance_mm": 0.30837333179078996,
+          "valid": true,
+          "energy": 0.28278055787086487
+        },
+        {
+          "epsilon": 0.07515990621053384,
+          "n_contacts": 3,
+          "penetration_mm": 0.1276051625609398,
+          "contact_distance_mm": 0.3841084835585207,
+          "valid": true,
+          "energy": 0.34018978476524353
+        },
+        {
+          "epsilon": 0.13715335225057737,
+          "n_contacts": 3,
+          "penetration_mm": 0.12942589819431305,
+          "contact_distance_mm": 0.28818598366342485,
+          "valid": true,
+          "energy": 0.23767006397247314
+        },
+        {
+          "epsilon": 0.0591467313219827,
+          "n_contacts": 3,
+          "penetration_mm": 0.1406632363796234,
+          "contact_distance_mm": 0.4790599050465971,
+          "valid": true,
+          "energy": 0.9355999827384949
+        },
+        {
+          "epsilon": 0.1087865930881926,
+          "n_contacts": 3,
+          "penetration_mm": 0.10075327008962631,
+          "contact_distance_mm": 0.33277893089689314,
+          "valid": true,
+          "energy": 0.3776692748069763
+        },
+        {
+          "epsilon": 0.09100176718609297,
+          "n_contacts": 3,
+          "penetration_mm": 0.1779617741703987,
+          "contact_distance_mm": 0.2565371396485716,
+          "valid": true,
+          "energy": 0.2186221033334732
+        },
+        {
+          "epsilon": 0.07600218460484343,
+          "n_contacts": 3,
+          "penetration_mm": 0.1304466277360916,
+          "contact_distance_mm": 0.26579201221466064,
+          "valid": true,
+          "energy": 0.31607821583747864
+        },
+        {
+          "epsilon": 0.09155884696352648,
+          "n_contacts": 3,
+          "penetration_mm": 0.19131973385810852,
+          "contact_distance_mm": 0.27066096663475037,
+          "valid": true,
+          "energy": 0.27950403094291687
+        },
+        {
+          "epsilon": 0.08328007440948737,
+          "n_contacts": 3,
+          "penetration_mm": 0.05884002894163132,
+          "contact_distance_mm": 0.43975809239782393,
+          "valid": true,
+          "energy": 0.42011064291000366
+        },
+        {
+          "epsilon": 0.07831815879573964,
+          "n_contacts": 3,
+          "penetration_mm": 0.1418115571141243,
+          "contact_distance_mm": 0.22929410624783486,
+          "valid": true,
+          "energy": 0.22412428259849548
+        },
+        {
+          "epsilon": 0.10244778841278046,
+          "n_contacts": 3,
+          "penetration_mm": 0.22037699818611145,
+          "contact_distance_mm": 0.5242489278316498,
+          "valid": true,
+          "energy": 0.4970460832118988
+        },
+        {
+          "epsilon": 0.07669184783384127,
+          "n_contacts": 3,
+          "penetration_mm": 0.22911559790372849,
+          "contact_distance_mm": 0.3778735699597746,
+          "valid": true,
+          "energy": 0.3107057213783264
+        },
+        {
+          "epsilon": 0.08693582731347538,
+          "n_contacts": 3,
+          "penetration_mm": 0.21221674978733063,
+          "contact_distance_mm": 0.5803269450552762,
+          "valid": true,
+          "energy": 0.47733208537101746
+        },
+        {
+          "epsilon": 0.10729826649287041,
+          "n_contacts": 3,
+          "penetration_mm": 0.08484534919261932,
+          "contact_distance_mm": 0.24868795298971236,
+          "valid": true,
+          "energy": 0.2319154590368271
+        },
+        {
+          "epsilon": 0.08672380272148525,
+          "n_contacts": 3,
+          "penetration_mm": 0.22175628691911697,
+          "contact_distance_mm": 0.28207278228364885,
+          "valid": true,
+          "energy": 0.2627045810222626
+        },
+        {
+          "epsilon": 0.08167380841762938,
+          "n_contacts": 3,
+          "penetration_mm": 0.2173949033021927,
+          "contact_distance_mm": 0.27938932180404663,
+          "valid": true,
+          "energy": 0.33533984422683716
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 2,
+          "penetration_mm": 0.12191664427518845,
+          "contact_distance_mm": 0.9617333416827023,
+          "valid": false,
+          "energy": 1.2016102075576782
+        },
+        {
+          "epsilon": 0.10655033816050187,
+          "n_contacts": 3,
+          "penetration_mm": 0.1707831397652626,
+          "contact_distance_mm": 0.373384595150128,
+          "valid": true,
+          "energy": 0.3018341660499573
+        },
+        {
+          "epsilon": 0.06530585314052885,
+          "n_contacts": 3,
+          "penetration_mm": 0.09967666119337082,
+          "contact_distance_mm": 0.4593506455421448,
+          "valid": true,
+          "energy": 0.505717933177948
+        },
+        {
+          "epsilon": 0.08202820543842128,
+          "n_contacts": 3,
+          "penetration_mm": 0.18012523651123047,
+          "contact_distance_mm": 0.3311634063720703,
+          "valid": true,
+          "energy": 0.3124168813228607
+        },
+        {
+          "epsilon": 0.11816077949850595,
+          "n_contacts": 3,
+          "penetration_mm": 0.21949037909507751,
+          "contact_distance_mm": 0.38021928048692644,
+          "valid": true,
+          "energy": 0.3989666998386383
+        },
+        {
+          "epsilon": 0.12095494629530623,
+          "n_contacts": 3,
+          "penetration_mm": 0.23173540830612183,
+          "contact_distance_mm": 0.34037730074487627,
+          "valid": true,
+          "energy": 0.31850215792655945
+        },
+        {
+          "epsilon": 0.0762165467519647,
+          "n_contacts": 3,
+          "penetration_mm": 0.19763968884944916,
+          "contact_distance_mm": 0.2917945384979248,
+          "valid": true,
+          "energy": 0.3277806043624878
+        },
+        {
+          "epsilon": 0.12871799091764766,
+          "n_contacts": 3,
+          "penetration_mm": 0.1957165077328682,
+          "contact_distance_mm": 0.28309845947660506,
+          "valid": true,
+          "energy": 0.22503717243671417
+        },
+        {
+          "epsilon": 0.07171279776233222,
+          "n_contacts": 3,
+          "penetration_mm": 0.02045370638370514,
+          "contact_distance_mm": 0.31095370650291443,
+          "valid": true,
+          "energy": 0.32383134961128235
+        },
+        {
+          "epsilon": 0.0911977858181448,
+          "n_contacts": 3,
+          "penetration_mm": 0.1392131671309471,
+          "contact_distance_mm": 0.3534853458404541,
+          "valid": true,
+          "energy": 0.2913183569908142
+        },
+        {
+          "epsilon": 0.08509807259779158,
+          "n_contacts": 3,
+          "penetration_mm": 0.04007108509540558,
+          "contact_distance_mm": 0.2555871906224638,
+          "valid": true,
+          "energy": 0.24012614786624908
+        },
+        {
+          "epsilon": 0.07826177688120756,
+          "n_contacts": 3,
+          "penetration_mm": 0.1747412607073784,
+          "contact_distance_mm": 0.35644942545332015,
+          "valid": true,
+          "energy": 0.3706432580947876
+        },
+        {
+          "epsilon": 0.12293809707505243,
+          "n_contacts": 3,
+          "penetration_mm": 0.16854610294103622,
+          "contact_distance_mm": 0.25331228971481323,
+          "valid": true,
+          "energy": 0.23891466856002808
+        },
+        {
+          "epsilon": 0.09349908844113375,
+          "n_contacts": 3,
+          "penetration_mm": 0.18972158432006836,
+          "contact_distance_mm": 0.2554630336817354,
+          "valid": true,
+          "energy": 0.26318854093551636
+        },
+        {
+          "epsilon": 0.10085086058887877,
+          "n_contacts": 3,
+          "penetration_mm": 0.2249656245112419,
+          "contact_distance_mm": 0.2569258213043213,
+          "valid": true,
+          "energy": 0.3172456622123718
+        },
+        {
+          "epsilon": 0.1000149903626678,
+          "n_contacts": 3,
+          "penetration_mm": 0.2490328624844551,
+          "contact_distance_mm": 0.35820528864860535,
+          "valid": true,
+          "energy": 0.30496326088905334
+        },
+        {
+          "epsilon": 0.09548278374467233,
+          "n_contacts": 3,
+          "penetration_mm": 0.11370610445737839,
+          "contact_distance_mm": 0.32525634742341936,
+          "valid": true,
+          "energy": 0.3565219044685364
+        },
+        {
+          "epsilon": 0.12616663832529312,
+          "n_contacts": 3,
+          "penetration_mm": 0.24073943495750427,
+          "contact_distance_mm": 0.33132979297079146,
+          "valid": true,
+          "energy": 0.2888343632221222
+        },
+        {
+          "epsilon": 0.08125688196158459,
+          "n_contacts": 3,
+          "penetration_mm": 0.05623139441013336,
+          "contact_distance_mm": 0.2120397984981537,
+          "valid": true,
+          "energy": 0.1874491274356842
+        },
+        {
+          "epsilon": 0.06885559239935438,
+          "n_contacts": 3,
+          "penetration_mm": 0.011984258890151978,
+          "contact_distance_mm": 0.40675452328287065,
+          "valid": true,
+          "energy": 0.35694530606269836
+        },
+        {
+          "epsilon": 0.08723966741662688,
+          "n_contacts": 3,
+          "penetration_mm": 0.05961209535598755,
+          "contact_distance_mm": 0.2620642480906099,
+          "valid": true,
+          "energy": 0.20937180519104004
+        },
+        {
+          "epsilon": 0.0973568887516173,
+          "n_contacts": 3,
+          "penetration_mm": 0.1914268359541893,
+          "contact_distance_mm": 0.3410975041333586,
+          "valid": true,
+          "energy": 0.2839988172054291
+        },
+        {
+          "epsilon": 0.0782705473095632,
+          "n_contacts": 3,
+          "penetration_mm": 0.19149202853441238,
+          "contact_distance_mm": 0.2986652252729982,
+          "valid": true,
+          "energy": 0.3173765540122986
+        },
+        {
+          "epsilon": 0.08520220294424675,
+          "n_contacts": 3,
+          "penetration_mm": 0.22672023624181747,
+          "contact_distance_mm": 0.24507814669050276,
+          "valid": true,
+          "energy": 0.24259360134601593
+        }
+      ]
     },
-    "seconds": 37.613932957989164
-  },
-  {
-    "object": "can",
-    "grasp": "power",
-    "seeds": 48,
-    "valid_fraction": 0.3333333333333333,
-    "best": {
-      "epsilon": 0.22995828009305957,
-      "n_contacts": 11,
-      "penetration_mm": 0.005725305527448654,
-      "contact_distance_mm": 0.6854689563624561,
-      "valid": true
+    {
+      "object": "cube",
+      "grasp": "precision",
+      "seeds": 48,
+      "valid_fraction": 0.3333333333333333,
+      "valid_fraction_95ci": [
+        0.2167660137089678,
+        0.47460153667527943
+      ],
+      "failed_checks": {
+        "fewer_than_3_contacts": 31,
+        "not_force_closure": 32,
+        "penetration_over_1mm": 0
+      },
+      "median_valid_epsilon": 0.05984412019783117,
+      "best": {
+        "epsilon": 0.09354085721643178,
+        "n_contacts": 3,
+        "penetration_mm": 0.2243807539343834,
+        "contact_distance_mm": 0.2045128494501114,
+        "valid": true
+      },
+      "seconds": 25.113507625006605,
+      "per_seed": [
+        {
+          "epsilon": 0.0,
+          "n_contacts": 2,
+          "penetration_mm": 0.16676727682352066,
+          "contact_distance_mm": 1.8643006915226579,
+          "valid": false,
+          "energy": 3.607994556427002
+        },
+        {
+          "epsilon": 0.05956930570650899,
+          "n_contacts": 3,
+          "penetration_mm": 0.07143616676330566,
+          "contact_distance_mm": 0.026096435249201022,
+          "valid": true,
+          "energy": 0.19548380374908447
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 2,
+          "penetration_mm": 0.19351625815033913,
+          "contact_distance_mm": 2.4472572840750217,
+          "valid": false,
+          "energy": 3.905092239379883
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 2,
+          "penetration_mm": 0.42791012674570084,
+          "contact_distance_mm": 1.084652729332447,
+          "valid": false,
+          "energy": 1.9485433101654053
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 2,
+          "penetration_mm": 0.15688873827457428,
+          "contact_distance_mm": 1.9796753767877817,
+          "valid": false,
+          "energy": 3.5346906185150146
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 2,
+          "penetration_mm": 0.2037426456809044,
+          "contact_distance_mm": 2.271057339385152,
+          "valid": false,
+          "energy": 4.025554180145264
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 2,
+          "penetration_mm": 0.27953553944826126,
+          "contact_distance_mm": 2.806785749271512,
+          "valid": false,
+          "energy": 5.035542964935303
+        },
+        {
+          "epsilon": 0.024542092616675188,
+          "n_contacts": 3,
+          "penetration_mm": 0.13471394777297974,
+          "contact_distance_mm": 1.093039638362825,
+          "valid": true,
+          "energy": 1.3792057037353516
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 2,
+          "penetration_mm": 0.2239299938082695,
+          "contact_distance_mm": 2.7473103255033493,
+          "valid": false,
+          "energy": 7.272561550140381
+        },
+        {
+          "epsilon": 0.06376990971125614,
+          "n_contacts": 3,
+          "penetration_mm": 0.0745914876461029,
+          "contact_distance_mm": 0.4915508325211704,
+          "valid": true,
+          "energy": 0.42036041617393494
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 2,
+          "penetration_mm": 0.006379559636116028,
+          "contact_distance_mm": 2.000524662435055,
+          "valid": false,
+          "energy": 3.1286442279815674
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 2,
+          "penetration_mm": 0.2297842875123024,
+          "contact_distance_mm": 2.0492319017648697,
+          "valid": false,
+          "energy": 6.381169319152832
+        },
+        {
+          "epsilon": 0.06693472784113186,
+          "n_contacts": 3,
+          "penetration_mm": 0.06149429827928543,
+          "contact_distance_mm": 0.3149133699480444,
+          "valid": true,
+          "energy": 0.7140296101570129
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 2,
+          "penetration_mm": 0.15569757670164108,
+          "contact_distance_mm": 1.9329179776832461,
+          "valid": false,
+          "energy": 3.4807674884796143
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 2,
+          "penetration_mm": 0.18126796931028366,
+          "contact_distance_mm": 1.8561481265351176,
+          "valid": false,
+          "energy": 3.4050655364990234
+        },
+        {
+          "epsilon": 0.052861127386517576,
+          "n_contacts": 3,
+          "penetration_mm": 0.18097367137670517,
+          "contact_distance_mm": 0.2942293358501047,
+          "valid": true,
+          "energy": 0.6227555274963379
+        },
+        {
+          "epsilon": 0.03875304200763767,
+          "n_contacts": 3,
+          "penetration_mm": 0.08686911314725876,
+          "contact_distance_mm": 0.22355793043971062,
+          "valid": true,
+          "energy": 1.0289177894592285
+        },
+        {
+          "epsilon": 0.07108288050068085,
+          "n_contacts": 3,
+          "penetration_mm": 0.19656121730804443,
+          "contact_distance_mm": 0.4681078717112541,
+          "valid": true,
+          "energy": 0.5104151368141174
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 2,
+          "penetration_mm": 0.005938112735748291,
+          "contact_distance_mm": 1.9927325192838907,
+          "valid": false,
+          "energy": 2.9002981185913086
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 2,
+          "penetration_mm": 0.1625576987862587,
+          "contact_distance_mm": 2.2724352311342955,
+          "valid": false,
+          "energy": 4.4780168533325195
+        },
+        {
+          "epsilon": 0.07922523263750668,
+          "n_contacts": 3,
+          "penetration_mm": 0.12540817260742188,
+          "contact_distance_mm": 0.31438624137081206,
+          "valid": true,
+          "energy": 0.7855274677276611
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 2,
+          "penetration_mm": 0.173238106071949,
+          "contact_distance_mm": 2.0887590944767,
+          "valid": false,
+          "energy": 4.25443172454834
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 2,
+          "penetration_mm": 0.18831901252269745,
+          "contact_distance_mm": 2.303959568962455,
+          "valid": false,
+          "energy": 5.851014137268066
+        },
+        {
+          "epsilon": 0.0413153266759615,
+          "n_contacts": 3,
+          "penetration_mm": 0.13182498514652252,
+          "contact_distance_mm": 0.33000236726365983,
+          "valid": true,
+          "energy": 1.2314412593841553
+        },
+        {
+          "epsilon": 0.04764949327734121,
+          "n_contacts": 3,
+          "penetration_mm": 0.22272765636444092,
+          "contact_distance_mm": 0.3569945693016052,
+          "valid": true,
+          "energy": 0.9244597554206848
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 2,
+          "penetration_mm": 0.02516619861125946,
+          "contact_distance_mm": 2.0142991561442614,
+          "valid": false,
+          "energy": 3.535238742828369
+        },
+        {
+          "epsilon": 0.07674879159969046,
+          "n_contacts": 3,
+          "penetration_mm": 0.11819042265415192,
+          "contact_distance_mm": 0.6323925335891545,
+          "valid": true,
+          "energy": 0.7207491397857666
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 2,
+          "penetration_mm": 0.40247756987810135,
+          "contact_distance_mm": 2.0082818809896708,
+          "valid": false,
+          "energy": 3.854175090789795
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 2,
+          "penetration_mm": 0.06046891212463379,
+          "contact_distance_mm": 2.4326604325324297,
+          "valid": false,
+          "energy": 5.202470779418945
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 2,
+          "penetration_mm": 0.047505833208560944,
+          "contact_distance_mm": 2.0138081163167953,
+          "valid": false,
+          "energy": 3.8442792892456055
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 2,
+          "penetration_mm": 0.1634657382965088,
+          "contact_distance_mm": 2.0039763767272234,
+          "valid": false,
+          "energy": 3.9514987468719482
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 2,
+          "penetration_mm": 0.3305263817310333,
+          "contact_distance_mm": 1.8407959723845124,
+          "valid": false,
+          "energy": 3.240948438644409
+        },
+        {
+          "epsilon": 0.06011893468915334,
+          "n_contacts": 3,
+          "penetration_mm": 0.25052763521671295,
+          "contact_distance_mm": 0.41525112465023994,
+          "valid": true,
+          "energy": 0.8038368225097656
+        },
+        {
+          "epsilon": 0.10068671625910511,
+          "n_contacts": 3,
+          "penetration_mm": 0.21311920136213303,
+          "contact_distance_mm": 0.3922050818800926,
+          "valid": true,
+          "energy": 0.6518437266349792
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 2,
+          "penetration_mm": 0.07469579577445984,
+          "contact_distance_mm": 1.6971043078228831,
+          "valid": false,
+          "energy": 2.7454848289489746
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 2,
+          "penetration_mm": 0.3065895289182663,
+          "contact_distance_mm": 2.2591573651880026,
+          "valid": false,
+          "energy": 4.193294048309326
+        },
+        {
+          "epsilon": 0.09354085721643178,
+          "n_contacts": 3,
+          "penetration_mm": 0.2243807539343834,
+          "contact_distance_mm": 0.2045128494501114,
+          "valid": true,
+          "energy": 0.16885162889957428
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 2,
+          "penetration_mm": 0.02501998096704483,
+          "contact_distance_mm": 1.9510070560500026,
+          "valid": false,
+          "energy": 4.10971736907959
+        },
+        {
+          "epsilon": 0.041400691140288985,
+          "n_contacts": 3,
+          "penetration_mm": 0.36103278398513794,
+          "contact_distance_mm": 0.4427960666362196,
+          "valid": true,
+          "energy": 0.7788770198822021
+        },
+        {
+          "epsilon": 0.03443299271549022,
+          "n_contacts": 3,
+          "penetration_mm": 0.11047255247831345,
+          "contact_distance_mm": 0.6596489693038166,
+          "valid": true,
+          "energy": 0.6128545999526978
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 2,
+          "penetration_mm": 0.3179069608449936,
+          "contact_distance_mm": 3.4215699415653944,
+          "valid": false,
+          "energy": 5.563267230987549
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 2,
+          "penetration_mm": 0.15718955546617508,
+          "contact_distance_mm": 2.3106082808226347,
+          "valid": false,
+          "energy": 9.97230052947998
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 2,
+          "penetration_mm": 0.056181102991104126,
+          "contact_distance_mm": 1.7907386645674706,
+          "valid": false,
+          "energy": 3.518385171890259
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 2,
+          "penetration_mm": 0.045921653509140015,
+          "contact_distance_mm": 1.64333067368716,
+          "valid": false,
+          "energy": 3.0920071601867676
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 3,
+          "penetration_mm": 0.2715000882744789,
+          "contact_distance_mm": 1.4623802853748202,
+          "valid": false,
+          "energy": 2.828779697418213
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 2,
+          "penetration_mm": 0.13680104166269302,
+          "contact_distance_mm": 1.8608098616823554,
+          "valid": false,
+          "energy": 3.403766393661499
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 2,
+          "penetration_mm": 0.017084181308746338,
+          "contact_distance_mm": 1.7883129185065627,
+          "valid": false,
+          "energy": 3.9361188411712646
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 2,
+          "penetration_mm": 0.11474639177322388,
+          "contact_distance_mm": 2.1446573082357645,
+          "valid": false,
+          "energy": 4.133706092834473
+        }
+      ]
     },
-    "seconds": 37.842252500006
-  },
-  {
-    "object": "mug",
-    "grasp": "power",
-    "seeds": 48,
-    "valid_fraction": 0.2708333333333333,
-    "best": {
-      "epsilon": 0.08397675627487382,
-      "n_contacts": 8,
-      "penetration_mm": 0.0031082890927791595,
-      "contact_distance_mm": 1.6187786823138595,
-      "valid": true
+    {
+      "object": "donut",
+      "grasp": "power",
+      "seeds": 48,
+      "valid_fraction": 0.6458333333333334,
+      "valid_fraction_95ci": [
+        0.5043879645406409,
+        0.7656654288731427
+      ],
+      "failed_checks": {
+        "fewer_than_3_contacts": 3,
+        "not_force_closure": 15,
+        "penetration_over_1mm": 7
+      },
+      "median_valid_epsilon": 0.06908607595471522,
+      "best": {
+        "epsilon": 0.1401194720560004,
+        "n_contacts": 10,
+        "penetration_mm": 0.3187907859683037,
+        "contact_distance_mm": 1.355492160655558,
+        "valid": true
+      },
+      "seconds": 47.203112874994986,
+      "per_seed": [
+        {
+          "epsilon": 0.12906826129120025,
+          "n_contacts": 9,
+          "penetration_mm": 0.16783736646175385,
+          "contact_distance_mm": 1.690769218839705,
+          "valid": true,
+          "energy": 5.907954216003418
+        },
+        {
+          "epsilon": 0.10364009690637642,
+          "n_contacts": 10,
+          "penetration_mm": 0.21667778491973877,
+          "contact_distance_mm": 3.410841105505824,
+          "valid": true,
+          "energy": 12.515779495239258
+        },
+        {
+          "epsilon": 0.07569599609555881,
+          "n_contacts": 8,
+          "penetration_mm": 0.21455064415931702,
+          "contact_distance_mm": 1.7883656546473503,
+          "valid": true,
+          "energy": 7.046744346618652
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 7,
+          "penetration_mm": 0.14961138367652893,
+          "contact_distance_mm": 2.2223275154829025,
+          "valid": false,
+          "energy": 9.145532608032227
+        },
+        {
+          "epsilon": 0.1401194720560004,
+          "n_contacts": 10,
+          "penetration_mm": 0.3187907859683037,
+          "contact_distance_mm": 1.355492160655558,
+          "valid": true,
+          "energy": 4.584708213806152
+        },
+        {
+          "epsilon": 0.021496805565712377,
+          "n_contacts": 9,
+          "penetration_mm": 0.23131165653467178,
+          "contact_distance_mm": 3.0055816750973463,
+          "valid": true,
+          "energy": 12.930723190307617
+        },
+        {
+          "epsilon": 0.04080280313091521,
+          "n_contacts": 5,
+          "penetration_mm": 0.11800695210695267,
+          "contact_distance_mm": 4.254703875631094,
+          "valid": true,
+          "energy": 16.63935661315918
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 4,
+          "penetration_mm": 0.2542715519666672,
+          "contact_distance_mm": 7.868237793445587,
+          "valid": false,
+          "energy": 31.007850646972656
+        },
+        {
+          "epsilon": 0.07296551841086778,
+          "n_contacts": 9,
+          "penetration_mm": 0.26047276332974434,
+          "contact_distance_mm": 2.223505638539791,
+          "valid": true,
+          "energy": 8.360950469970703
+        },
+        {
+          "epsilon": 0.06649223840592844,
+          "n_contacts": 11,
+          "penetration_mm": 0.1303856261074543,
+          "contact_distance_mm": 2.197145251557231,
+          "valid": true,
+          "energy": 8.796966552734375
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 2,
+          "penetration_mm": 16.634859144687653,
+          "contact_distance_mm": 6.5749227069318295,
+          "valid": false,
+          "energy": 1304.6619873046875
+        },
+        {
+          "epsilon": 0.020541497410587282,
+          "n_contacts": 9,
+          "penetration_mm": 0.26108138263225555,
+          "contact_distance_mm": 4.425969440490007,
+          "valid": true,
+          "energy": 18.32587242126465
+        },
+        {
+          "epsilon": 0.058097933085181436,
+          "n_contacts": 10,
+          "penetration_mm": 0.27912482619285583,
+          "contact_distance_mm": 1.4116360107436776,
+          "valid": true,
+          "energy": 5.399875640869141
+        },
+        {
+          "epsilon": 0.08424989057811362,
+          "n_contacts": 9,
+          "penetration_mm": 0.14413893222808838,
+          "contact_distance_mm": 1.5721129020676017,
+          "valid": true,
+          "energy": 6.598614692687988
+        },
+        {
+          "epsilon": 0.08001748451285598,
+          "n_contacts": 10,
+          "penetration_mm": 0.21761376410722733,
+          "contact_distance_mm": 1.4162451261654496,
+          "valid": true,
+          "energy": 5.112491130828857
+        },
+        {
+          "epsilon": 0.07510843259484673,
+          "n_contacts": 10,
+          "penetration_mm": 0.2707843668758869,
+          "contact_distance_mm": 2.052445663139224,
+          "valid": true,
+          "energy": 7.794955253601074
+        },
+        {
+          "epsilon": 0.03573511794974043,
+          "n_contacts": 5,
+          "penetration_mm": 16.56211167573929,
+          "contact_distance_mm": 3.6173227708786726,
+          "valid": false,
+          "energy": 1292.737060546875
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 11,
+          "penetration_mm": 0.1484365202486515,
+          "contact_distance_mm": 2.449657069519162,
+          "valid": false,
+          "energy": 10.725587844848633
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 4,
+          "penetration_mm": 0.2993633970618248,
+          "contact_distance_mm": 11.935543268918991,
+          "valid": false,
+          "energy": 48.23801803588867
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 1,
+          "penetration_mm": 16.60967245697975,
+          "contact_distance_mm": 6.735661532729864,
+          "valid": false,
+          "energy": 1305.0999755859375
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 3,
+          "penetration_mm": 0.27997884899377823,
+          "contact_distance_mm": 4.704780410975218,
+          "valid": false,
+          "energy": 18.62265396118164
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 4,
+          "penetration_mm": 0.4352293908596039,
+          "contact_distance_mm": 5.1351250149309635,
+          "valid": false,
+          "energy": 21.620750427246094
+        },
+        {
+          "epsilon": 0.11395598337282499,
+          "n_contacts": 9,
+          "penetration_mm": 0.1302408054471016,
+          "contact_distance_mm": 3.5390418488532305,
+          "valid": true,
+          "energy": 12.88344955444336
+        },
+        {
+          "epsilon": 0.10018194326615713,
+          "n_contacts": 9,
+          "penetration_mm": 0.2555297687649727,
+          "contact_distance_mm": 1.651897095143795,
+          "valid": true,
+          "energy": 5.971640110015869
+        },
+        {
+          "epsilon": 0.021854245879950288,
+          "n_contacts": 4,
+          "penetration_mm": 0.13128388673067093,
+          "contact_distance_mm": 9.032935835421085,
+          "valid": true,
+          "energy": 36.43837356567383
+        },
+        {
+          "epsilon": 0.03763728900819232,
+          "n_contacts": 8,
+          "penetration_mm": 0.19216351211071014,
+          "contact_distance_mm": 1.5915705589577556,
+          "valid": true,
+          "energy": 5.859279632568359
+        },
+        {
+          "epsilon": 0.06908607595471522,
+          "n_contacts": 8,
+          "penetration_mm": 0.11863745748996735,
+          "contact_distance_mm": 1.7594523960724473,
+          "valid": true,
+          "energy": 6.020298004150391
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 3,
+          "penetration_mm": 0.32357219606637955,
+          "contact_distance_mm": 7.616144139319658,
+          "valid": false,
+          "energy": 31.820592880249023
+        },
+        {
+          "epsilon": 0.03361997411944898,
+          "n_contacts": 6,
+          "penetration_mm": 0.16594771295785904,
+          "contact_distance_mm": 7.644967641681433,
+          "valid": true,
+          "energy": 30.00815200805664
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 8,
+          "penetration_mm": 0.2588164061307907,
+          "contact_distance_mm": 2.466708654537797,
+          "valid": false,
+          "energy": 8.984354019165039
+        },
+        {
+          "epsilon": 0.11277467017463945,
+          "n_contacts": 6,
+          "penetration_mm": 0.21934788674116135,
+          "contact_distance_mm": 4.57037566229701,
+          "valid": true,
+          "energy": 16.645000457763672
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 5,
+          "penetration_mm": 16.778884455561638,
+          "contact_distance_mm": 4.348363261669874,
+          "valid": false,
+          "energy": 1746.67333984375
+        },
+        {
+          "epsilon": 0.05843161598888603,
+          "n_contacts": 9,
+          "penetration_mm": 0.21589407697319984,
+          "contact_distance_mm": 2.16971174813807,
+          "valid": true,
+          "energy": 8.300247192382812
+        },
+        {
+          "epsilon": 0.038688158876978684,
+          "n_contacts": 4,
+          "penetration_mm": 0.3158906474709511,
+          "contact_distance_mm": 5.02795958891511,
+          "valid": true,
+          "energy": 19.813199996948242
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 1,
+          "penetration_mm": 16.400324180722237,
+          "contact_distance_mm": 4.343044478446245,
+          "valid": false,
+          "energy": 1302.45458984375
+        },
+        {
+          "epsilon": 0.009172166673545139,
+          "n_contacts": 6,
+          "penetration_mm": 0.23195520043373108,
+          "contact_distance_mm": 7.237931247800589,
+          "valid": true,
+          "energy": 28.78217124938965
+        },
+        {
+          "epsilon": 0.10190117885273141,
+          "n_contacts": 8,
+          "penetration_mm": 0.19873399287462234,
+          "contact_distance_mm": 2.9870003927499056,
+          "valid": true,
+          "energy": 10.981868743896484
+        },
+        {
+          "epsilon": 0.018950412705848976,
+          "n_contacts": 5,
+          "penetration_mm": 0.13764947652816772,
+          "contact_distance_mm": 4.843075294047594,
+          "valid": true,
+          "energy": 18.437454223632812
+        },
+        {
+          "epsilon": 0.014550264174968386,
+          "n_contacts": 7,
+          "penetration_mm": 0.13951119035482407,
+          "contact_distance_mm": 4.132051020860672,
+          "valid": true,
+          "energy": 17.451448440551758
+        },
+        {
+          "epsilon": 0.05884162100506023,
+          "n_contacts": 8,
+          "penetration_mm": 16.72540232539177,
+          "contact_distance_mm": 3.417742205783725,
+          "valid": false,
+          "energy": 1290.8006591796875
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 7,
+          "penetration_mm": 0.18124282360076904,
+          "contact_distance_mm": 2.910427749156952,
+          "valid": false,
+          "energy": 13.169217109680176
+        },
+        {
+          "epsilon": 0.04344732876375373,
+          "n_contacts": 9,
+          "penetration_mm": 0.20242203027009964,
+          "contact_distance_mm": 3.447047434747219,
+          "valid": true,
+          "energy": 14.502037048339844
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 4,
+          "penetration_mm": 16.602305695414543,
+          "contact_distance_mm": 4.739894066005945,
+          "valid": false,
+          "energy": 1297.7860107421875
+        },
+        {
+          "epsilon": 0.061133490241405936,
+          "n_contacts": 8,
+          "penetration_mm": 0.22133812308311462,
+          "contact_distance_mm": 1.7272391123697162,
+          "valid": true,
+          "energy": 6.10423469543457
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 6,
+          "penetration_mm": 0.1488812267780304,
+          "contact_distance_mm": 4.2969947680830956,
+          "valid": false,
+          "energy": 19.098093032836914
+        },
+        {
+          "epsilon": 0.1254077868258115,
+          "n_contacts": 10,
+          "penetration_mm": 0.20168721675872803,
+          "contact_distance_mm": 1.4774041483178735,
+          "valid": true,
+          "energy": 5.256483554840088
+        },
+        {
+          "epsilon": 0.11375002488173995,
+          "n_contacts": 9,
+          "penetration_mm": 0.1768842339515686,
+          "contact_distance_mm": 1.392942271195352,
+          "valid": true,
+          "energy": 4.868435382843018
+        },
+        {
+          "epsilon": 0.08049018453073893,
+          "n_contacts": 8,
+          "penetration_mm": 0.16024569049477577,
+          "contact_distance_mm": 2.7583660557866096,
+          "valid": true,
+          "energy": 10.280017852783203
+        }
+      ]
     },
-    "seconds": 36.53809237500536
-  },
-  {
-    "object": "bottle",
-    "grasp": "power",
-    "seeds": 48,
-    "valid_fraction": 0.375,
-    "best": {
-      "epsilon": 0.07253680248430001,
-      "n_contacts": 10,
-      "penetration_mm": 0.00508967787027359,
-      "contact_distance_mm": 0.8498055394738913,
-      "valid": true
+    {
+      "object": "can",
+      "grasp": "power",
+      "seeds": 48,
+      "valid_fraction": 0.5833333333333334,
+      "valid_fraction_95ci": [
+        0.44281082215364653,
+        0.7115054026542299
+      ],
+      "failed_checks": {
+        "fewer_than_3_contacts": 8,
+        "not_force_closure": 20,
+        "penetration_over_1mm": 0
+      },
+      "median_valid_epsilon": 0.0826522662119957,
+      "best": {
+        "epsilon": 0.08375376445031345,
+        "n_contacts": 11,
+        "penetration_mm": 0.31327828764915466,
+        "contact_distance_mm": 1.0078049963340163,
+        "valid": true
+      },
+      "seconds": 48.77140245802002,
+      "per_seed": [
+        {
+          "epsilon": 0.06151113698248424,
+          "n_contacts": 9,
+          "penetration_mm": 0.29886141419410706,
+          "contact_distance_mm": 2.1212659776210785,
+          "valid": true,
+          "energy": 8.577499389648438
+        },
+        {
+          "epsilon": 0.013852701319107028,
+          "n_contacts": 5,
+          "penetration_mm": 0.36756135523319244,
+          "contact_distance_mm": 4.322679713368416,
+          "valid": true,
+          "energy": 16.453725814819336
+        },
+        {
+          "epsilon": 0.09592507065017188,
+          "n_contacts": 9,
+          "penetration_mm": 0.13652723282575607,
+          "contact_distance_mm": 2.1936630364507437,
+          "valid": true,
+          "energy": 8.102619171142578
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 3,
+          "penetration_mm": 0.30748359858989716,
+          "contact_distance_mm": 7.2842431254684925,
+          "valid": false,
+          "energy": 34.77440643310547
+        },
+        {
+          "epsilon": 0.04392005903497557,
+          "n_contacts": 10,
+          "penetration_mm": 0.25616493076086044,
+          "contact_distance_mm": 1.0100755607709289,
+          "valid": true,
+          "energy": 4.810716152191162
+        },
+        {
+          "epsilon": 0.13182291075638564,
+          "n_contacts": 9,
+          "penetration_mm": 0.14730915427207947,
+          "contact_distance_mm": 1.381225069053471,
+          "valid": true,
+          "energy": 4.614660739898682
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 3,
+          "penetration_mm": 0.24532899260520935,
+          "contact_distance_mm": 5.795709788799286,
+          "valid": false,
+          "energy": 24.214435577392578
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 8,
+          "penetration_mm": 0.3402354195713997,
+          "contact_distance_mm": 2.073398558422923,
+          "valid": false,
+          "energy": 7.242618083953857
+        },
+        {
+          "epsilon": 0.034973714730476696,
+          "n_contacts": 5,
+          "penetration_mm": 0.29447395354509354,
+          "contact_distance_mm": 4.619760904461145,
+          "valid": true,
+          "energy": 17.975963592529297
+        },
+        {
+          "epsilon": 0.09521634446776585,
+          "n_contacts": 8,
+          "penetration_mm": 0.21874252706766129,
+          "contact_distance_mm": 2.4914504028856754,
+          "valid": true,
+          "energy": 8.627456665039062
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 10,
+          "penetration_mm": 0.20176172256469727,
+          "contact_distance_mm": 1.8004062585532665,
+          "valid": false,
+          "energy": 11.928092002868652
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 4,
+          "penetration_mm": 0.531347468495369,
+          "contact_distance_mm": 4.198636393994093,
+          "valid": false,
+          "energy": 18.081390380859375
+        },
+        {
+          "epsilon": 0.07923193095466861,
+          "n_contacts": 9,
+          "penetration_mm": 0.39432523772120476,
+          "contact_distance_mm": 2.6303164195269346,
+          "valid": true,
+          "energy": 10.94184398651123
+        },
+        {
+          "epsilon": 0.03322195399601503,
+          "n_contacts": 5,
+          "penetration_mm": 0.30604563653469086,
+          "contact_distance_mm": 5.246253684163094,
+          "valid": true,
+          "energy": 19.926748275756836
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 3,
+          "penetration_mm": 0.24459045380353928,
+          "contact_distance_mm": 10.156606324017048,
+          "valid": false,
+          "energy": 44.883697509765625
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 1,
+          "penetration_mm": 0.2905186265707016,
+          "contact_distance_mm": 19.110823050141335,
+          "valid": false,
+          "energy": 82.13970184326172
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 1,
+          "penetration_mm": 0.7350069936364889,
+          "contact_distance_mm": 9.077150374650955,
+          "valid": false,
+          "energy": 39.78579330444336
+        },
+        {
+          "epsilon": 0.0987422313509918,
+          "n_contacts": 6,
+          "penetration_mm": 0.2851225435733795,
+          "contact_distance_mm": 4.225559066981077,
+          "valid": true,
+          "energy": 15.192052841186523
+        },
+        {
+          "epsilon": 0.030922719244707124,
+          "n_contacts": 4,
+          "penetration_mm": 0.4931800067424774,
+          "contact_distance_mm": 7.229853887110949,
+          "valid": true,
+          "energy": 27.658159255981445
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 4,
+          "penetration_mm": 0.2773962914943695,
+          "contact_distance_mm": 12.493331916630268,
+          "valid": false,
+          "energy": 52.68894577026367
+        },
+        {
+          "epsilon": 0.08769529270342862,
+          "n_contacts": 8,
+          "penetration_mm": 0.15970692038536072,
+          "contact_distance_mm": 2.9058645013719797,
+          "valid": true,
+          "energy": 11.183252334594727
+        },
+        {
+          "epsilon": 0.1128537200798054,
+          "n_contacts": 7,
+          "penetration_mm": 0.14020316302776337,
+          "contact_distance_mm": 3.618422895669937,
+          "valid": true,
+          "energy": 13.971150398254395
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 3,
+          "penetration_mm": 0.18523144535720348,
+          "contact_distance_mm": 5.858161952346563,
+          "valid": false,
+          "energy": 23.821733474731445
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 7,
+          "penetration_mm": 0.3925478085875511,
+          "contact_distance_mm": 3.6425653379410505,
+          "valid": false,
+          "energy": 19.515316009521484
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 2,
+          "penetration_mm": 0.39683282375335693,
+          "contact_distance_mm": 13.439464382827282,
+          "valid": false,
+          "energy": 54.42155456542969
+        },
+        {
+          "epsilon": 0.15739390654101773,
+          "n_contacts": 9,
+          "penetration_mm": 0.2867532894015312,
+          "contact_distance_mm": 2.2300889249891043,
+          "valid": true,
+          "energy": 8.084291458129883
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 1,
+          "penetration_mm": 0.28496701270341873,
+          "contact_distance_mm": 9.742509573698044,
+          "valid": false,
+          "energy": 43.85456848144531
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 3,
+          "penetration_mm": 0.26248302310705185,
+          "contact_distance_mm": 15.653736889362335,
+          "valid": false,
+          "energy": 62.015953063964844
+        },
+        {
+          "epsilon": 0.1989157375212116,
+          "n_contacts": 6,
+          "penetration_mm": 0.14971569180488586,
+          "contact_distance_mm": 2.5356877595186234,
+          "valid": true,
+          "energy": 8.65669059753418
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 4,
+          "penetration_mm": 0.24637114256620407,
+          "contact_distance_mm": 4.0034642443060875,
+          "valid": false,
+          "energy": 17.931758880615234
+        },
+        {
+          "epsilon": 0.11836061402195559,
+          "n_contacts": 7,
+          "penetration_mm": 0.3095129504799843,
+          "contact_distance_mm": 3.2675715629011393,
+          "valid": true,
+          "energy": 12.038552284240723
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 1,
+          "penetration_mm": 0.23519713431596756,
+          "contact_distance_mm": 21.657228469848633,
+          "valid": false,
+          "energy": 90.60392761230469
+        },
+        {
+          "epsilon": 0.04458684961761582,
+          "n_contacts": 9,
+          "penetration_mm": 0.23585930466651917,
+          "contact_distance_mm": 1.3491931604221463,
+          "valid": true,
+          "energy": 5.70530891418457
+        },
+        {
+          "epsilon": 0.13806707588181621,
+          "n_contacts": 10,
+          "penetration_mm": 0.24871714413166046,
+          "contact_distance_mm": 1.9783254247158766,
+          "valid": true,
+          "energy": 7.1815385818481445
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 0,
+          "penetration_mm": 0.6037969142198563,
+          "contact_distance_mm": 20.85348032414913,
+          "valid": false,
+          "energy": 90.20773315429688
+        },
+        {
+          "epsilon": 0.1786464483114145,
+          "n_contacts": 10,
+          "penetration_mm": 0.15785172581672668,
+          "contact_distance_mm": 1.153575605712831,
+          "valid": true,
+          "energy": 3.735271453857422
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 4,
+          "penetration_mm": 0.2524033188819885,
+          "contact_distance_mm": 4.871748853474855,
+          "valid": false,
+          "energy": 23.484773635864258
+        },
+        {
+          "epsilon": 0.04761553559501599,
+          "n_contacts": 10,
+          "penetration_mm": 0.27984194457530975,
+          "contact_distance_mm": 1.1152055812999606,
+          "valid": true,
+          "energy": 4.63343620300293
+        },
+        {
+          "epsilon": 0.08155076797367797,
+          "n_contacts": 9,
+          "penetration_mm": 0.2936767414212227,
+          "contact_distance_mm": 2.787984674796462,
+          "valid": true,
+          "energy": 10.666921615600586
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 1,
+          "penetration_mm": 0.42814016342163086,
+          "contact_distance_mm": 16.003159806132317,
+          "valid": false,
+          "energy": 69.12123107910156
+        },
+        {
+          "epsilon": 0.0564080996793058,
+          "n_contacts": 8,
+          "penetration_mm": 0.23554544895887375,
+          "contact_distance_mm": 2.949277637526393,
+          "valid": true,
+          "energy": 10.791084289550781
+        },
+        {
+          "epsilon": 0.0720151647679507,
+          "n_contacts": 5,
+          "penetration_mm": 0.27802400290966034,
+          "contact_distance_mm": 4.084419924765825,
+          "valid": true,
+          "energy": 14.524033546447754
+        },
+        {
+          "epsilon": 0.000268892731867401,
+          "n_contacts": 6,
+          "penetration_mm": 0.35227835178375244,
+          "contact_distance_mm": 6.32809242233634,
+          "valid": true,
+          "energy": 25.917572021484375
+        },
+        {
+          "epsilon": 0.08375376445031345,
+          "n_contacts": 11,
+          "penetration_mm": 0.31327828764915466,
+          "contact_distance_mm": 1.0078049963340163,
+          "valid": true,
+          "energy": 3.662534713745117
+        },
+        {
+          "epsilon": 0.09737801859088105,
+          "n_contacts": 9,
+          "penetration_mm": 0.1665474846959114,
+          "contact_distance_mm": 2.4589512031525373,
+          "valid": true,
+          "energy": 9.00349235534668
+        },
+        {
+          "epsilon": 0.11785626376233956,
+          "n_contacts": 9,
+          "penetration_mm": 0.21821120753884315,
+          "contact_distance_mm": 2.4523837491869926,
+          "valid": true,
+          "energy": 8.902143478393555
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 0,
+          "penetration_mm": 0.4683639854192734,
+          "contact_distance_mm": 18.28034222126007,
+          "valid": false,
+          "energy": 77.27835845947266
+        },
+        {
+          "epsilon": 6.245097311611431e-17,
+          "n_contacts": 6,
+          "penetration_mm": 0.2575172111392021,
+          "contact_distance_mm": 7.076985668390989,
+          "valid": true,
+          "energy": 28.059900283813477
+        }
+      ]
     },
-    "seconds": 41.308313832996646
-  }
-]
+    {
+      "object": "mug",
+      "grasp": "power",
+      "seeds": 48,
+      "valid_fraction": 0.4583333333333333,
+      "valid_fraction_95ci": [
+        0.3257502185455351,
+        0.5970916690505266
+      ],
+      "failed_checks": {
+        "fewer_than_3_contacts": 19,
+        "not_force_closure": 26,
+        "penetration_over_1mm": 1
+      },
+      "median_valid_epsilon": 0.06412771978778277,
+      "best": {
+        "epsilon": 0.08911439530046407,
+        "n_contacts": 11,
+        "penetration_mm": 0.5179736763238907,
+        "contact_distance_mm": 1.2326842406764627,
+        "valid": true
+      },
+      "seconds": 59.39768745901529,
+      "per_seed": [
+        {
+          "epsilon": 0.0,
+          "n_contacts": 7,
+          "penetration_mm": 0.19877031445503235,
+          "contact_distance_mm": 2.6060587260872126,
+          "valid": false,
+          "energy": 14.84418773651123
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 5,
+          "penetration_mm": 0.206703320145607,
+          "contact_distance_mm": 4.738804418593645,
+          "valid": false,
+          "energy": 20.636104583740234
+        },
+        {
+          "epsilon": 0.06332839037523767,
+          "n_contacts": 10,
+          "penetration_mm": 0.4790332168340683,
+          "contact_distance_mm": 1.3639688258990645,
+          "valid": true,
+          "energy": 5.739597320556641
+        },
+        {
+          "epsilon": 0.06787094842634654,
+          "n_contacts": 6,
+          "penetration_mm": 0.283888541162014,
+          "contact_distance_mm": 2.1837500389665365,
+          "valid": true,
+          "energy": 8.287552833557129
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 6,
+          "penetration_mm": 0.31129922717809677,
+          "contact_distance_mm": 4.888854920864105,
+          "valid": false,
+          "energy": 23.24700927734375
+        },
+        {
+          "epsilon": 0.08260536474351722,
+          "n_contacts": 8,
+          "penetration_mm": 0.331999734044075,
+          "contact_distance_mm": 1.8939366564154625,
+          "valid": true,
+          "energy": 7.07138729095459
+        },
+        {
+          "epsilon": 0.0401555709643145,
+          "n_contacts": 8,
+          "penetration_mm": 0.39405934512615204,
+          "contact_distance_mm": 2.2661832626909018,
+          "valid": true,
+          "energy": 10.613418579101562
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 1,
+          "penetration_mm": 0.4678945988416672,
+          "contact_distance_mm": 18.17268878221512,
+          "valid": false,
+          "energy": 79.29557800292969
+        },
+        {
+          "epsilon": 0.0007356501428641849,
+          "n_contacts": 4,
+          "penetration_mm": 0.6589852273464203,
+          "contact_distance_mm": 5.976788699626923,
+          "valid": true,
+          "energy": 25.27368927001953
+        },
+        {
+          "epsilon": 0.1000203701781484,
+          "n_contacts": 7,
+          "penetration_mm": 0.5774213932454586,
+          "contact_distance_mm": 3.133519319817424,
+          "valid": true,
+          "energy": 11.392041206359863
+        },
+        {
+          "epsilon": 0.014781752533121414,
+          "n_contacts": 7,
+          "penetration_mm": 0.22169668227434158,
+          "contact_distance_mm": 2.2393011022359133,
+          "valid": true,
+          "energy": 10.35912036895752
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 1,
+          "penetration_mm": 0.4067644476890564,
+          "contact_distance_mm": 20.46339213848114,
+          "valid": false,
+          "energy": 85.58537292480469
+        },
+        {
+          "epsilon": 0.0844394509486367,
+          "n_contacts": 6,
+          "penetration_mm": 0.36896392703056335,
+          "contact_distance_mm": 2.1662430372089148,
+          "valid": true,
+          "energy": 8.044611930847168
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 0,
+          "penetration_mm": 0.47972798347473145,
+          "contact_distance_mm": 10.578393936157227,
+          "valid": false,
+          "energy": 46.298545837402344
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 2,
+          "penetration_mm": 0.6707590073347092,
+          "contact_distance_mm": 17.715899273753166,
+          "valid": false,
+          "energy": 72.90689086914062
+        },
+        {
+          "epsilon": 0.001297584073223284,
+          "n_contacts": 7,
+          "penetration_mm": 0.2068476751446724,
+          "contact_distance_mm": 3.0562803149223328,
+          "valid": true,
+          "energy": 13.338277816772461
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 0,
+          "penetration_mm": 0.696543836966157,
+          "contact_distance_mm": 15.85748977959156,
+          "valid": false,
+          "energy": 67.06607818603516
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 0,
+          "penetration_mm": 0.440424308180809,
+          "contact_distance_mm": 22.118451073765755,
+          "valid": false,
+          "energy": 94.52885437011719
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 7,
+          "penetration_mm": 0.2974756062030792,
+          "contact_distance_mm": 2.7318827342242002,
+          "valid": false,
+          "energy": 13.86938762664795
+        },
+        {
+          "epsilon": 0.14789023904418808,
+          "n_contacts": 9,
+          "penetration_mm": 0.2438342198729515,
+          "contact_distance_mm": 2.084071282297373,
+          "valid": true,
+          "energy": 7.4777140617370605
+        },
+        {
+          "epsilon": 0.05813113464441556,
+          "n_contacts": 8,
+          "penetration_mm": 0.4852078855037689,
+          "contact_distance_mm": 1.6015549190342426,
+          "valid": true,
+          "energy": 6.264259338378906
+        },
+        {
+          "epsilon": 0.04889183046975051,
+          "n_contacts": 9,
+          "penetration_mm": 0.35100989043712616,
+          "contact_distance_mm": 1.885947771370411,
+          "valid": true,
+          "energy": 7.769474983215332
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 0,
+          "penetration_mm": 0.7597347721457481,
+          "contact_distance_mm": 19.387735053896904,
+          "valid": false,
+          "energy": 83.1081314086914
+        },
+        {
+          "epsilon": 0.0659966865167317,
+          "n_contacts": 8,
+          "penetration_mm": 0.2934481017291546,
+          "contact_distance_mm": 1.8725512782111764,
+          "valid": true,
+          "energy": 7.517362117767334
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 0,
+          "penetration_mm": 0.44135283678770065,
+          "contact_distance_mm": 21.66271209716797,
+          "valid": false,
+          "energy": 93.34295654296875
+        },
+        {
+          "epsilon": 0.06492704920032787,
+          "n_contacts": 10,
+          "penetration_mm": 0.23297592997550964,
+          "contact_distance_mm": 1.486190245486796,
+          "valid": true,
+          "energy": 5.928173542022705
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 7,
+          "penetration_mm": 0.16688555479049683,
+          "contact_distance_mm": 3.6103033926337957,
+          "valid": false,
+          "energy": 17.99188232421875
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 2,
+          "penetration_mm": 0.3094011917710304,
+          "contact_distance_mm": 14.057832770049572,
+          "valid": false,
+          "energy": 55.02507400512695
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 0,
+          "penetration_mm": 0.7063476368784904,
+          "contact_distance_mm": 21.94296009838581,
+          "valid": false,
+          "energy": 94.34809112548828
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 0,
+          "penetration_mm": 0.2819672226905823,
+          "contact_distance_mm": 24.66205507516861,
+          "valid": false,
+          "energy": 104.10060119628906
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 0,
+          "penetration_mm": 0.5033547058701515,
+          "contact_distance_mm": 21.45923487842083,
+          "valid": false,
+          "energy": 90.29116821289062
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 1,
+          "penetration_mm": 0.8083602879196405,
+          "contact_distance_mm": 11.804181151092052,
+          "valid": false,
+          "energy": 51.52556228637695
+        },
+        {
+          "epsilon": 0.040280838493075684,
+          "n_contacts": 6,
+          "penetration_mm": 0.2705859951674938,
+          "contact_distance_mm": 5.836864933371544,
+          "valid": true,
+          "energy": 23.09879493713379
+        },
+        {
+          "epsilon": 0.09554023273566921,
+          "n_contacts": 6,
+          "penetration_mm": 0.21835509687662125,
+          "contact_distance_mm": 4.4263978488743305,
+          "valid": true,
+          "energy": 16.676822662353516
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 0,
+          "penetration_mm": 0.14179199934005737,
+          "contact_distance_mm": 17.59379357099533,
+          "valid": false,
+          "energy": 73.30293273925781
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 2,
+          "penetration_mm": 0.46072108671069145,
+          "contact_distance_mm": 10.840993374586105,
+          "valid": false,
+          "energy": 46.34394454956055
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 0,
+          "penetration_mm": 0.45478343963623047,
+          "contact_distance_mm": 20.359555259346962,
+          "valid": false,
+          "energy": 87.73583984375
+        },
+        {
+          "epsilon": 0.051508890375905426,
+          "n_contacts": 10,
+          "penetration_mm": 0.3607412800192833,
+          "contact_distance_mm": 1.3146832352504134,
+          "valid": true,
+          "energy": 5.903831481933594
+        },
+        {
+          "epsilon": 0.10860565699266563,
+          "n_contacts": 8,
+          "penetration_mm": 0.36865659058094025,
+          "contact_distance_mm": 2.185426652431488,
+          "valid": true,
+          "energy": 7.616865158081055
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 0,
+          "penetration_mm": 0.4588458687067032,
+          "contact_distance_mm": 24.14087764918804,
+          "valid": false,
+          "energy": 99.5526351928711
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 0,
+          "penetration_mm": 0.8685095235705376,
+          "contact_distance_mm": 19.062107428908348,
+          "valid": false,
+          "energy": 81.56101989746094
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 3,
+          "penetration_mm": 0.25132764130830765,
+          "contact_distance_mm": 7.76246003806591,
+          "valid": false,
+          "energy": 30.502286911010742
+        },
+        {
+          "epsilon": 0.0650734145916392,
+          "n_contacts": 10,
+          "penetration_mm": 0.20886026322841644,
+          "contact_distance_mm": 1.6715560341253877,
+          "valid": true,
+          "energy": 7.061916828155518
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 1,
+          "penetration_mm": 0.4626261070370674,
+          "contact_distance_mm": 11.27822045236826,
+          "valid": false,
+          "energy": 49.56615447998047
+        },
+        {
+          "epsilon": 0.022043671531117165,
+          "n_contacts": 8,
+          "penetration_mm": 0.2268962562084198,
+          "contact_distance_mm": 2.8959063347429037,
+          "valid": true,
+          "energy": 14.35496711730957
+        },
+        {
+          "epsilon": 0.004455292726777347,
+          "n_contacts": 8,
+          "penetration_mm": 0.29111746698617935,
+          "contact_distance_mm": 1.7289618263021111,
+          "valid": true,
+          "energy": 9.409045219421387
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 8,
+          "penetration_mm": 14.41256608814001,
+          "contact_distance_mm": 2.2314973175525665,
+          "valid": false,
+          "energy": 55.57057189941406
+        },
+        {
+          "epsilon": 0.08911439530046407,
+          "n_contacts": 11,
+          "penetration_mm": 0.5179736763238907,
+          "contact_distance_mm": 1.2326842406764627,
+          "valid": true,
+          "energy": 4.7285661697387695
+        }
+      ]
+    },
+    {
+      "object": "bottle",
+      "grasp": "power",
+      "seeds": 48,
+      "valid_fraction": 0.6041666666666666,
+      "valid_fraction_95ci": [
+        0.4631015459693511,
+        0.7297937350404942
+      ],
+      "failed_checks": {
+        "fewer_than_3_contacts": 10,
+        "not_force_closure": 19,
+        "penetration_over_1mm": 0
+      },
+      "median_valid_epsilon": 0.038472257507932234,
+      "best": {
+        "epsilon": 0.06252509989467878,
+        "n_contacts": 11,
+        "penetration_mm": 0.24727731943130493,
+        "contact_distance_mm": 0.8947955793701112,
+        "valid": true
+      },
+      "seconds": 58.796883500006516,
+      "per_seed": [
+        {
+          "epsilon": 0.0,
+          "n_contacts": 9,
+          "penetration_mm": 0.20329374819993973,
+          "contact_distance_mm": 1.8285467522218823,
+          "valid": false,
+          "energy": 9.68958854675293
+        },
+        {
+          "epsilon": 0.02026714196951828,
+          "n_contacts": 4,
+          "penetration_mm": 0.4222039133310318,
+          "contact_distance_mm": 6.778753828257322,
+          "valid": true,
+          "energy": 28.37571907043457
+        },
+        {
+          "epsilon": 0.03065532712849028,
+          "n_contacts": 10,
+          "penetration_mm": 0.23035146296024323,
+          "contact_distance_mm": 1.397002604790032,
+          "valid": true,
+          "energy": 6.6823530197143555
+        },
+        {
+          "epsilon": 0.01842404246285315,
+          "n_contacts": 5,
+          "penetration_mm": 0.1295739784836769,
+          "contact_distance_mm": 4.538905341178179,
+          "valid": true,
+          "energy": 18.982954025268555
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 1,
+          "penetration_mm": 0.2863071858882904,
+          "contact_distance_mm": 17.915567383170128,
+          "valid": false,
+          "energy": 78.22697448730469
+        },
+        {
+          "epsilon": 0.1123451718775032,
+          "n_contacts": 9,
+          "penetration_mm": 0.2512410283088684,
+          "contact_distance_mm": 1.3984664110466838,
+          "valid": true,
+          "energy": 5.536285400390625
+        },
+        {
+          "epsilon": 0.035772231978251065,
+          "n_contacts": 8,
+          "penetration_mm": 0.11627655476331711,
+          "contact_distance_mm": 1.6754422103986144,
+          "valid": true,
+          "energy": 8.475258827209473
+        },
+        {
+          "epsilon": 0.038472257507932234,
+          "n_contacts": 6,
+          "penetration_mm": 0.1430325210094452,
+          "contact_distance_mm": 4.398867953568697,
+          "valid": true,
+          "energy": 18.638004302978516
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 6,
+          "penetration_mm": 0.22719427943229675,
+          "contact_distance_mm": 2.626399276778102,
+          "valid": false,
+          "energy": 14.69529914855957
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 0,
+          "penetration_mm": 0.128256157040596,
+          "contact_distance_mm": 22.119350731372833,
+          "valid": false,
+          "energy": 92.90171813964844
+        },
+        {
+          "epsilon": 0.11447136220927007,
+          "n_contacts": 10,
+          "penetration_mm": 0.12646522372961044,
+          "contact_distance_mm": 1.4463821426033974,
+          "valid": true,
+          "energy": 5.54815673828125
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 4,
+          "penetration_mm": 0.17121806740760803,
+          "contact_distance_mm": 6.943965330719948,
+          "valid": false,
+          "energy": 29.164093017578125
+        },
+        {
+          "epsilon": 0.056329721297923026,
+          "n_contacts": 9,
+          "penetration_mm": 0.2747010439634323,
+          "contact_distance_mm": 1.6499798512086272,
+          "valid": true,
+          "energy": 7.894637107849121
+        },
+        {
+          "epsilon": 0.026826882542490056,
+          "n_contacts": 5,
+          "penetration_mm": 0.18651410937309265,
+          "contact_distance_mm": 5.952982697635889,
+          "valid": true,
+          "energy": 24.180517196655273
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 0,
+          "penetration_mm": 0.32779620960354805,
+          "contact_distance_mm": 20.349470898509026,
+          "valid": false,
+          "energy": 86.00996398925781
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 1,
+          "penetration_mm": 0.24893879890441895,
+          "contact_distance_mm": 14.073919504880905,
+          "valid": false,
+          "energy": 59.60957717895508
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 2,
+          "penetration_mm": 0.33179763704538345,
+          "contact_distance_mm": 14.408718794584274,
+          "valid": false,
+          "energy": 59.965415954589844
+        },
+        {
+          "epsilon": 0.07731664864847342,
+          "n_contacts": 7,
+          "penetration_mm": 0.3241412341594696,
+          "contact_distance_mm": 2.533792285248637,
+          "valid": true,
+          "energy": 9.407154083251953
+        },
+        {
+          "epsilon": 0.03544185153099389,
+          "n_contacts": 6,
+          "penetration_mm": 0.15283096581697464,
+          "contact_distance_mm": 3.8669512141495943,
+          "valid": true,
+          "energy": 14.864093780517578
+        },
+        {
+          "epsilon": 0.06252509989467878,
+          "n_contacts": 11,
+          "penetration_mm": 0.24727731943130493,
+          "contact_distance_mm": 0.8947955793701112,
+          "valid": true,
+          "energy": 4.680367946624756
+        },
+        {
+          "epsilon": 0.012890382224838865,
+          "n_contacts": 10,
+          "penetration_mm": 0.17132703214883804,
+          "contact_distance_mm": 1.380880014039576,
+          "valid": true,
+          "energy": 7.322579860687256
+        },
+        {
+          "epsilon": 0.009491006831872338,
+          "n_contacts": 6,
+          "penetration_mm": 0.21413154900074005,
+          "contact_distance_mm": 9.920893236994743,
+          "valid": true,
+          "energy": 41.7747917175293
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 5,
+          "penetration_mm": 0.17552264034748077,
+          "contact_distance_mm": 3.4891373943537474,
+          "valid": false,
+          "energy": 15.932943344116211
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 2,
+          "penetration_mm": 0.1481715589761734,
+          "contact_distance_mm": 27.83224545419216,
+          "valid": false,
+          "energy": 110.24244689941406
+        },
+        {
+          "epsilon": 0.029992921678532673,
+          "n_contacts": 4,
+          "penetration_mm": 0.16912398859858513,
+          "contact_distance_mm": 5.085203796625137,
+          "valid": true,
+          "energy": 19.96537208557129
+        },
+        {
+          "epsilon": 0.01895580648428009,
+          "n_contacts": 6,
+          "penetration_mm": 0.2295318990945816,
+          "contact_distance_mm": 4.683324601501226,
+          "valid": true,
+          "energy": 17.583980560302734
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 6,
+          "penetration_mm": 0.27593644335865974,
+          "contact_distance_mm": 4.45761252194643,
+          "valid": false,
+          "energy": 21.220924377441406
+        },
+        {
+          "epsilon": 0.012480376876312009,
+          "n_contacts": 10,
+          "penetration_mm": 0.1951754093170166,
+          "contact_distance_mm": 2.036735648289323,
+          "valid": true,
+          "energy": 9.185135841369629
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 0,
+          "penetration_mm": 0.18289964646100998,
+          "contact_distance_mm": 26.160506531596184,
+          "valid": false,
+          "energy": 110.35897064208984
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 2,
+          "penetration_mm": 0.17208606004714966,
+          "contact_distance_mm": 9.361300617456436,
+          "valid": false,
+          "energy": 39.78200149536133
+        },
+        {
+          "epsilon": 0.031649864325063094,
+          "n_contacts": 8,
+          "penetration_mm": 0.24078413844108582,
+          "contact_distance_mm": 5.914846435189247,
+          "valid": true,
+          "energy": 25.873249053955078
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 1,
+          "penetration_mm": 0.2849120646715164,
+          "contact_distance_mm": 21.596357226371765,
+          "valid": false,
+          "energy": 92.35662078857422
+        },
+        {
+          "epsilon": 0.08427126495928595,
+          "n_contacts": 11,
+          "penetration_mm": 0.16356166452169418,
+          "contact_distance_mm": 2.328704111278057,
+          "valid": true,
+          "energy": 8.780294418334961
+        },
+        {
+          "epsilon": 0.08697795835857558,
+          "n_contacts": 11,
+          "penetration_mm": 0.1649642363190651,
+          "contact_distance_mm": 1.6705336747691035,
+          "valid": true,
+          "energy": 6.362977027893066
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 4,
+          "penetration_mm": 0.5145575851202011,
+          "contact_distance_mm": 6.721725221723318,
+          "valid": false,
+          "energy": 29.06352996826172
+        },
+        {
+          "epsilon": 0.08192307747147748,
+          "n_contacts": 7,
+          "penetration_mm": 0.29263831675052643,
+          "contact_distance_mm": 2.0284682977944613,
+          "valid": true,
+          "energy": 7.958935260772705
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 4,
+          "penetration_mm": 0.17070118337869644,
+          "contact_distance_mm": 3.6565884947776794,
+          "valid": false,
+          "energy": 17.48101234436035
+        },
+        {
+          "epsilon": 0.04999169652266697,
+          "n_contacts": 9,
+          "penetration_mm": 0.12501981109380722,
+          "contact_distance_mm": 4.079876467585564,
+          "valid": true,
+          "energy": 16.08986473083496
+        },
+        {
+          "epsilon": 0.03738823671226766,
+          "n_contacts": 4,
+          "penetration_mm": 0.2761036157608032,
+          "contact_distance_mm": 11.206922121345997,
+          "valid": true,
+          "energy": 43.99251937866211
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 2,
+          "penetration_mm": 0.342600978910923,
+          "contact_distance_mm": 19.583186134696007,
+          "valid": false,
+          "energy": 83.76683807373047
+        },
+        {
+          "epsilon": 0.07246891217383873,
+          "n_contacts": 8,
+          "penetration_mm": 0.15669269487261772,
+          "contact_distance_mm": 2.8213292825967073,
+          "valid": true,
+          "energy": 11.379648208618164
+        },
+        {
+          "epsilon": 0.10714201249021146,
+          "n_contacts": 6,
+          "penetration_mm": 0.13738498091697693,
+          "contact_distance_mm": 2.402162877842784,
+          "valid": true,
+          "energy": 8.377739906311035
+        },
+        {
+          "epsilon": 0.039696876903326246,
+          "n_contacts": 7,
+          "penetration_mm": 0.188424251973629,
+          "contact_distance_mm": 3.817712189629674,
+          "valid": true,
+          "energy": 15.886775016784668
+        },
+        {
+          "epsilon": 0.04068379066304918,
+          "n_contacts": 10,
+          "penetration_mm": 0.1918599009513855,
+          "contact_distance_mm": 1.4768660767003894,
+          "valid": true,
+          "energy": 7.429211139678955
+        },
+        {
+          "epsilon": 0.04711039918978417,
+          "n_contacts": 10,
+          "penetration_mm": 0.25810394436120987,
+          "contact_distance_mm": 3.380904672667384,
+          "valid": true,
+          "energy": 14.50985050201416
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 10,
+          "penetration_mm": 0.21934416145086288,
+          "contact_distance_mm": 1.7478832742199302,
+          "valid": false,
+          "energy": 13.224197387695312
+        },
+        {
+          "epsilon": 0.0,
+          "n_contacts": 8,
+          "penetration_mm": 0.2600019797682762,
+          "contact_distance_mm": 4.64373454451561,
+          "valid": false,
+          "energy": 23.697677612304688
+        },
+        {
+          "epsilon": 0.010292290558736124,
+          "n_contacts": 3,
+          "penetration_mm": 0.21877698600292206,
+          "contact_distance_mm": 11.733557097613811,
+          "valid": true,
+          "energy": 47.34029769897461
+        }
+      ]
+    }
+  ]
+}

@@ -13,7 +13,7 @@ from .objects import SDF
 from .quality import epsilon_metric
 from .rotation import frame_from_z, matrix_to_rotation_6d
 
-__all__ = ["GraspOptimizer", "GraspResult", "evaluate", "PREGRASP_DEG"]
+__all__ = ["GraspOptimizer", "GraspResult", "evaluate", "penetration_depth", "PREGRASP_DEG"]
 
 # Pre-grasp postures in degrees, joint order as in ``JOINT_NAMES``:
 # thumb (cmc_abd, cmc_flex, cmc_rot, mcp, ip), then (abd, mcp, pip, dip) for each finger.
@@ -120,18 +120,40 @@ class GraspOptimizer:
                            time.perf_counter() - t0)
 
 
-def evaluate(hand: HandModel, obj: SDF, pose: HandPose, contacts, mu: float = 0.5, touch: float = 0.004):
+def penetration_depth(hand: HandModel, obj: SDF, pose: HandPose, chunk: int = 4096) -> torch.Tensor:
+    """Maximum interpenetration ``(B,)`` in metres from a dense, two-sided sampled check.
+
+    The hand's dense surface samples are tested against the object's exact SDF, and ~30k points
+    on the object surface against the hand's capsules and palm hull. The second direction catches
+    object edges and thin parts poking into the hand between hand samples. Both sample sets are
+    independent of the ones the optimiser sees, but this is still a sampled check: features much
+    smaller than the sample spacing (about 3 mm on the hand, 1-2 mm on the object) can be missed.
+    """
+    with torch.no_grad():
+        fk = hand.forward(pose)
+        into_object = torch.relu(-obj(hand.dense_surface_points(fk))).max(-1).values
+        q = obj.surface_points().to(hand.dtype)
+        into_hand = torch.zeros_like(into_object)
+        for b in range(len(into_hand)):
+            fb = {k: v[b : b + 1] for k, v in fk.items()}
+            for part in q.split(chunk):
+                into_hand[b] = torch.maximum(into_hand[b], torch.relu(-hand.signed_distance(fb, part[None])).max())
+    return torch.maximum(into_object, into_hand)
+
+
+def evaluate(hand: HandModel, obj: SDF, pose: HandPose, contacts, mu: float = 0.5, touch: float = 0.002):
     """Physical quality of each grasp in a batch.
 
     Returns a list of dicts with the Ferrari-Canny epsilon (contacts within
     ``touch`` metres of the surface, projected onto it), the maximum
-    penetration depth and the mean contact distance, both in millimetres.
+    penetration depth from :func:`penetration_depth` and the mean contact
+    distance, both in millimetres.
     """
     with torch.no_grad():
         fk = hand.forward(pose)
         c, _ = hand.contacts(fk, contacts)
         d_c = obj(c)
-        pen = torch.relu(-obj(hand.surface_points(fk))).max(-1).values
+    pen = penetration_depth(hand, obj, pose)
     n = obj.normal(c).detach()
     out = []
     for b in range(len(c)):

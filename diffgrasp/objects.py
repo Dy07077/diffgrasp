@@ -55,6 +55,31 @@ class SDF:
                 out.append(p[self(p) < -depth])
         return torch.cat(out)[:n]
 
+    def surface_points(self, n: int = 30000, seed: int = 0, iters: int = 4) -> torch.Tensor:
+        """About ``n`` points on the surface, for penetration checks (no meshing needed).
+
+        Random points in a thin shell around the surface are projected along the normal,
+        ``p - d(p) n(p)``, which lands on the surface of an exact SDF; the few that do not
+        (near a seam of a union) are discarded.
+        """
+        g = torch.Generator().manual_seed(seed)
+        c = torch.as_tensor(self.center, dtype=torch.float64)
+        band = 0.05 * self.radius
+        out, total = [], 0
+        while total < n:
+            p = c + 1.1 * self.radius * (2 * torch.rand(16 * n, 3, generator=g, dtype=torch.float64) - 1)
+            with torch.no_grad():
+                p = p[self(p).abs() < band]
+            for _ in range(iters):
+                with torch.no_grad():
+                    d = self(p)
+                p = p - d[:, None] * self.normal(p).detach()
+            with torch.no_grad():
+                p = p[self(p).abs() < 1e-6]
+            out.append(p)
+            total += len(p)
+        return torch.cat(out)[:n]
+
     def mesh(self, resolution: int = 64):
         """Triangle mesh of the zero level set (marching cubes)."""
         from skimage.measure import marching_cubes
