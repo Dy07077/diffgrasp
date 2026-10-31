@@ -1,0 +1,86 @@
+[
+  {
+    "object": "ball",
+    "grasp": "precision",
+    "seeds": 48,
+    "valid_fraction": 0.9791666666666666,
+    "best": {
+      "epsilon": 0.07879791899614692,
+      "n_contacts": 3,
+      "penetration_mm": 0.0,
+      "contact_distance_mm": 0.16293178487103432,
+      "valid": true
+    },
+    "seconds": 19.92693612500443
+  },
+  {
+    "object": "cube",
+    "grasp": "precision",
+    "seeds": 48,
+    "valid_fraction": 0.3333333333333333,
+    "best": {
+      "epsilon": 0.08882729030223996,
+      "n_contacts": 3,
+      "penetration_mm": 0.0,
+      "contact_distance_mm": 0.27672015130519867,
+      "valid": true
+    },
+    "seconds": 22.12546208401909
+  },
+  {
+    "object": "donut",
+    "grasp": "power",
+    "seeds": 48,
+    "valid_fraction": 0.7083333333333334,
+    "best": {
+      "epsilon": 0.09851117075374129,
+      "n_contacts": 10,
+      "penetration_mm": 0.0,
+      "contact_distance_mm": 0.9577290038578212,
+      "valid": true
+    },
+    "seconds": 37.613932957989164
+  },
+  {
+    "object": "can",
+    "grasp": "power",
+    "seeds": 48,
+    "valid_fraction": 0.3333333333333333,
+    "best": {
+      "epsilon": 0.22995828009305957,
+      "n_contacts": 11,
+      "penetration_mm": 0.005725305527448654,
+      "contact_distance_mm": 0.6854689563624561,
+      "valid": true
+    },
+    "seconds": 37.842252500006
+  },
+  {
+    "object": "mug",
+    "grasp": "power",
+    "seeds": 48,
+    "valid_fraction": 0.2708333333333333,
+    "best": {
+      "epsilon": 0.08397675627487382,
+      "n_contacts": 8,
+      "penetration_mm": 0.0031082890927791595,
+      "contact_distance_mm": 1.6187786823138595,
+      "valid": true
+    },
+    "seconds": 36.53809237500536
+  },
+  {
+    "object": "bottle",
+    "grasp": "power",
+    "seeds": 48,
+    "valid_fraction": 0.375,
+    "best": {
+      "epsilon": 0.07253680248430001,
+      "n_contacts": 10,
+      "penetration_mm": 0.00508967787027359,
+      "contact_distance_mm": 0.8498055394738913,
+      "valid": true
+    },
+    "seconds": 41.308313832996646
+  }
+]
